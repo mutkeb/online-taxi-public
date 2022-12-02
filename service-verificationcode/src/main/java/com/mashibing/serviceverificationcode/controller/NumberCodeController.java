@@ -12,12 +12,16 @@ public class NumberCodeController {
     @GetMapping("/numberCode/{size}")
     public String numberCode(@PathVariable("size") int size){
         System.out.println("size:" + size);
+        //  生成验证码
+        //  获取随机数,利用小数点往后移就可以了，就是相当于乘
+        double mathRandom = (Math.random() * 9 + 1 ) * Math.pow(10,size-1);
+        int resultInt = (int)mathRandom;
 
         JSONObject result = new JSONObject();
         result.put("code",1);
         result.put("message","success");
         JSONObject data = new JSONObject();
-        data.put("numberCode",123456);
+        data.put("numberCode",resultInt);
         result.put("data",data);
         return result.toString();
     }
