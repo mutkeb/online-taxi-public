@@ -18,6 +18,7 @@ public class NumberCodeController {
         //  获取随机数,利用小数点往后移就可以了，就是相当于乘
         double mathRandom = (Math.random() * 9 + 1 ) * Math.pow(10,size-1);
         int resultInt = (int)mathRandom;
+        System.out.println("generate src code:"+ resultInt);
 
         //  定义返回值
         NumberCodeResponse response = new NumberCodeResponse();
