@@ -2,10 +2,12 @@ package com.mashibing.apipassenger.service;
 
 
 import com.mashibing.apipassenger.remote.ServiceVerificationcodeClient;
+import com.mashibing.internalcommon.constant.CommonStatusEnum;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.response.NumberCodeResponse;
 import com.mashibing.internalcommon.response.TokenResponse;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -75,12 +77,18 @@ public class VerificationCodeService {
         String key = generateKeyByPhone(passengerPhone);
 
         //  根据key寻找value
-        String codeRedis = redisTemplate.opsForValue().get(key).toString();
+        String codeRedis = (String) redisTemplate.opsForValue().get(key);
         System.out.println("redis中的value:" + codeRedis);
 
         //  检验验证码
         System.out.println("检验验证码");
+        if (StringUtils.isBlank(codeRedis)){
+            return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(),CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
+        }
 
+        if (verificationCode.trim().equals(codeRedis.trim())){
+            return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(),CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
+        }
         //  判断原来是否有用户，并进行响应的处理
         System.out.println("判断原来是否有用户，并进行相应的处理");
 
