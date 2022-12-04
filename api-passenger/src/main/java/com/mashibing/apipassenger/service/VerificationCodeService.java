@@ -41,12 +41,21 @@ public class VerificationCodeService {
         //   存入Redis
         System.out.println("存入Redis");
         //  key,value,过期时间
-        String key = verificationCodePrefix + passengerPhone;
+        String key = generateKeyByPhone(passengerPhone);
         redisTemplate.opsForValue().set(key,numberCode,2, TimeUnit.MINUTES);
 
         //  通过短信服务商，将对应的验证码发送到手机上
         
         return ResponseResult.success();
+    }
+
+    /**
+     * 根据手机号生成key
+     * @param passengerPhone
+     * @return
+     */
+    private String generateKeyByPhone(String passengerPhone){
+        return passengerPhone + verificationCodePrefix;
     }
 
     /**
@@ -56,10 +65,18 @@ public class VerificationCodeService {
      * @return
      */
 
+
     public ResponseResult checkCode(String passengerPhone, String verificationCode){
         //  根据手机号，去redis读取验证码
         System.out.println("根据手机号，去redis读取验证码");
 
+
+        //  生成key
+        String key = generateKeyByPhone(passengerPhone);
+
+        //  根据key寻找value
+        String codeRedis = redisTemplate.opsForValue().get(key).toString();
+        System.out.println("redis中的value:" + codeRedis);
 
         //  检验验证码
         System.out.println("检验验证码");
