@@ -35,6 +35,12 @@
             <classifier>jdk15</classifier>
         </dependency>
 
+        <dependency>
+            <groupId>com.mashibing</groupId>
+            <artifactId>internal-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!--lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
