@@ -84,7 +84,7 @@ public class VerificationCodeService {
         String key = generateKeyByPhone(passengerPhone);
 
         //  根据key寻找value
-        String codeRedis = (String) redisTemplate.opsForValue().get(key);
+        String codeRedis = redisTemplate.opsForValue().get(key).toString();
         System.out.println("redis中的value:" + codeRedis);
 
         //  检验验证码
@@ -93,7 +93,7 @@ public class VerificationCodeService {
             return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(),CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
         }
 
-        if (verificationCode.trim().equals(codeRedis.trim())){
+        if (!verificationCode.trim().equals(codeRedis.trim())){
             return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(),CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
         }
         //  判断原来是否有用户，并进行响应的处理
