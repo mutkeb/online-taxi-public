@@ -33,6 +33,9 @@ public class VerificationCodeService {
     //  乘客验证码的前缀
     private String verificationCodePrefix = "passenger-verification-code-";
 
+    //  token前缀
+    private String tokenPrefix = "token-";
+
     /**
      * 生成验证码
      * @param passengerPhone
@@ -51,8 +54,7 @@ public class VerificationCodeService {
         System.out.println("存入Redis");
         //  key,value,过期时间
         String key = generateKeyByPhone(passengerPhone);
-        redisTemplate.opsForValue().set(key,numberCode,2, TimeUnit.MINUTES);
-
+        redisTemplate.opsForValue().set(key,numberCode + "",2, TimeUnit.MINUTES);
         //  通过短信服务商，将对应的验证码发送到手机上
         
         return ResponseResult.success();
@@ -66,6 +68,18 @@ public class VerificationCodeService {
     private String generateKeyByPhone(String passengerPhone){
         return passengerPhone + verificationCodePrefix;
     }
+
+
+    /**
+     * 根据手机号和身份标识，生成key
+     * @param phone
+     * @param identity
+     * @return
+     */
+    private String generatorTokenKey(String phone, String identity){
+        return tokenPrefix + phone + "-" + identity;
+    }
+
 
     /**
      * 校验验证码
@@ -103,6 +117,11 @@ public class VerificationCodeService {
 
         //  颁发令牌,不应使用魔法值，用常量
         String token = JwtUtils.generatorToken(passengerPhone, IdentityConstant.PASSENGER_IDENTITY);
+
+        //  将token保存到Redis中
+        String tokenKey = generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY);
+        //  有效时间30天
+        redisTemplate.opsForValue().set(tokenKey,token,30,TimeUnit.DAYS);
 
 
         //  响应

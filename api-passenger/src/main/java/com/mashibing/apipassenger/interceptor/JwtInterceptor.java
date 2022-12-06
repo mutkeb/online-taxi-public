@@ -43,7 +43,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             //  转json格式打印
             out.print(JSONObject.fromObject(ResponseResult.fail(resultString)).toString());
         }
-        
+
         return result;
     }
 }
