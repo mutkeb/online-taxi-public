@@ -15,7 +15,7 @@ public class RedisPrefixUtils {
      * @return
      */
     public static String generateKeyByPhone(String passengerPhone){
-        return passengerPhone + verificationCodePrefix;
+        return  verificationCodePrefix  + passengerPhone;
     }
 
 
