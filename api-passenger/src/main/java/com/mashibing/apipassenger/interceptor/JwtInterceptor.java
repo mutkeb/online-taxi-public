@@ -41,10 +41,9 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (!result){
             PrintWriter out = response.getWriter();
             //  转json格式打印
-            out.println(JSONObject.fromObject(ResponseResult.fail(resultString).toString()));
+            out.print(JSONObject.fromObject(ResponseResult.fail(resultString)).toString());
         }
-
-
+        
         return result;
     }
 }
