@@ -103,12 +103,12 @@ public class VerificationCodeService {
         //  将accessToken保存到Redis中
         String accessTokenKey = RedisPrefixUtils.generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY,TokenConstant.ACCESS_TOKEN_TYPE);
         //  有效时间30天
-        redisTemplate.opsForValue().set(accessTokenKey,accessToken,10,TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(accessTokenKey,accessToken,30,TimeUnit.DAYS);
 
         //  将token保存到Redis中
         String refreshTokenKey = RedisPrefixUtils.generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY,TokenConstant.REFRESH_TOKEN_TYPE);
         //  有效时间30天
-        redisTemplate.opsForValue().set(refreshTokenKey,refreshToken,200,TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(refreshTokenKey,refreshToken,31,TimeUnit.DAYS);
 
         //  响应
         TokenResponse tokenResponse = new TokenResponse();
