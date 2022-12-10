@@ -7,3 +7,6 @@ spring:
         server-addr: 127.0.0.1:8848
   application:
     name: service-map
+
+amap:
+  key: 8e5a9b596293593cf4f089f0e7e1a07b
