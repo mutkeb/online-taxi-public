@@ -2,8 +2,11 @@ package com.mashibing.servicemap.remote;
 
 
 import com.mashibing.internalcommon.constant.AmapConfigConstant;
+import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.response.DirectionResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -38,11 +41,44 @@ public class MapDirectionClient {
         log.info(urlBuild.toString());
         //  调用高德接口
         ResponseEntity<String> directionEntity = restTemplate.getForEntity(urlBuild.toString(), String.class);
+        String directionString = directionEntity.getBody();
         log.info("高德地图路径规划，返回的信息：" + directionEntity.getBody());
         //  解析接口
-        
+        DirectionResponse directionResponse = parseDirectionEntity(directionString);
 
 
-        return null;
+        return directionResponse;
+    }
+
+    private DirectionResponse parseDirectionEntity(String directionString){
+        DirectionResponse directionResponse = null;
+        try{
+            directionResponse = new DirectionResponse();
+            //  最外层
+            JSONObject result = JSONObject.fromObject(directionString);
+            if(result.has(AmapConfigConstant.STATUS)){
+                int status = result.getInt(AmapConfigConstant.STATUS);
+                if (status == 1){
+                    if (result.has(AmapConfigConstant.ROUTE)){
+                        JSONObject routeObject = result.getJSONObject(AmapConfigConstant.ROUTE);
+                        JSONArray pathsArray = routeObject.getJSONArray(AmapConfigConstant.PATHS);
+                        JSONObject pathObject = pathsArray.getJSONObject(0);
+
+                        if (pathObject.has(AmapConfigConstant.DISTANCE)){
+                            int distance = pathObject.getInt(AmapConfigConstant.DISTANCE);
+                            directionResponse.setDistance(distance);
+                        }
+                        if(pathObject.has(AmapConfigConstant.DURATION)){
+                            int duration = pathObject.getInt(AmapConfigConstant.DURATION);
+                            directionResponse.setDuration(duration);
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+
+        }
+
+        return directionResponse;
     }
 }
