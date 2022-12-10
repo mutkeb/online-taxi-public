@@ -99,7 +99,11 @@ public class ForecastService {
         double timeFare = BigDecimalUtils.multiply(unitPricePerMinute,timeMinute);
         price = BigDecimalUtils.add(price,timeFare);
 
-        return price;
+        //  作经度调整
+        BigDecimal priceDecimal = new BigDecimal(price);
+        priceDecimal = priceDecimal.setScale(2,BigDecimal.ROUND_HALF_UP);
+
+        return priceDecimal.doubleValue();
     }
 
 //    public static void main(String[] args) {
