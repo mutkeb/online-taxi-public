@@ -71,7 +71,7 @@ public class ForecastService {
      * @param priceRule
      * @return
      */
-    private static double getPrice(Integer distance,Integer duration,PriceRule priceRule){
+    private  double getPrice(Integer distance,Integer duration,PriceRule priceRule){
         double price = 0.0;
         //  起步价
         double startFare = priceRule.getStartFare();
@@ -102,12 +102,12 @@ public class ForecastService {
         return price;
     }
 
-    public static void main(String[] args) {
-        PriceRule priceRule = new PriceRule();
-        priceRule.setUnitPricePerMile(1.8);
-        priceRule.setUnitPricePerMinute(0.5);
-        priceRule.setStartFare(10.0);
-        priceRule.setStartMile(3);
-        System.out.println(getPrice(6500,1800,priceRule));
-    }
+//    public static void main(String[] args) {
+//        PriceRule priceRule = new PriceRule();
+//        priceRule.setUnitPricePerMile(1.8);
+//        priceRule.setUnitPricePerMinute(0.5);
+//        priceRule.setStartFare(10.0);
+//        priceRule.setStartMile(3);
+//        System.out.println(getPrice(6500,1800,priceRule));
+//    }
 }
