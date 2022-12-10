@@ -1,15 +1,21 @@
 package com.mashibing.apipassenger.service;
 
 
+import com.mashibing.apipassenger.remote.ServicePriceClient;
 import com.mashibing.internalcommon.dto.ResponseResult;
+import com.mashibing.internalcommon.request.ForecastPriceDTO;
 import com.mashibing.internalcommon.response.ForecastPriceResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class ForecastPriceService {
 
+
+    @Autowired
+    private ServicePriceClient servicePriceClient;
     /**
      * 根据出发地经纬度和目的地经纬度预估价格
      * @param depLongitude
@@ -25,9 +31,15 @@ public class ForecastPriceService {
         log.info("目的地纬度：" + destLatitude);
 
         log.info("调用计价服务，计算价格");
-
+        ForecastPriceDTO priceDTO = new ForecastPriceDTO();
+        priceDTO.setDepLongitude(depLongitude);
+        priceDTO.setDepLatitude(depLatitude);
+        priceDTO.setDestLongitude(destLongitude);
+        priceDTO.setDestLatitude(destLatitude);
+        ResponseResult<ForecastPriceResponse> forecast = servicePriceClient.forecast(priceDTO);
         ForecastPriceResponse response = new ForecastPriceResponse();
-        response.setPrice(12);
+        double price = forecast.getData().getPrice();
+        response.setPrice(price);
         return ResponseResult.success(response);
     }
 
