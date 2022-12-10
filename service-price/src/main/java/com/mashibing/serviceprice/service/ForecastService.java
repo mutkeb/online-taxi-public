@@ -54,8 +54,27 @@ public class ForecastService {
         PriceRule priceRule = (PriceRule)priceRules.get(0);
         log.info("根据距离、时长、计价规则计算价格");
 
+
         ForecastPriceResponse response = new ForecastPriceResponse();
         response.setPrice(12);
         return ResponseResult.success(response);
+    }
+
+    /**
+     * 根据距离、时长和计算规则计算最终价格
+     * @param distance
+     * @param duration
+     * @param priceRule
+     * @return
+     */
+    private double getPrice(Integer distance,Integer duration,PriceRule priceRule){
+        //  BigDecimal
+
+        //  起步价
+
+        //  里程费
+
+        //  时长费
+        return 0;
     }
 }
