@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/direction")
 public class DirectionController {
 
+
     @Autowired
     private DirectionService directionService;
 
@@ -26,4 +27,5 @@ public class DirectionController {
 
         return directionService.driving(depLongitude,depLatitude,destLongitude,destLatitude);
     }
+
 }
