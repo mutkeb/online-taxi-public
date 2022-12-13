@@ -2,7 +2,9 @@ package com.mashibing.servicemap.service;
 
 import com.mashibing.internalcommon.constant.AmapConfigConstant;
 import com.mashibing.internalcommon.dto.ResponseResult;
+import com.mashibing.servicemap.remote.DicDistrictClient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,25 +13,17 @@ import org.springframework.stereotype.Service;
 public class DicDistrictService {
 
 
-    @Value("${amap.key}")
-    private String amapkey;
+    @Autowired
+    private DicDistrictClient dicDistrictClient;
     /**
      * 插入行政区数据
      * @param keywords
      * @return
      */
     public ResponseResult initDicDistrict(String keywords){
-        //  拼接url
-        //  &key=<用户的key>
-        StringBuilder url = new StringBuilder();
-        url.append(AmapConfigConstant.DISTRICT_URL);
-        url.append("?");
-        url.append("keywords=" + keywords);
-        url.append("&");
-        url.append("subdistrict=2");
-        url.append("&");
-        url.append("key=" + amapkey );
-        log.info(url.toString());
+        //  获得数据
+        String dicDistrict = dicDistrictClient.initDicDistrict(keywords);
+        log.info(dicDistrict.toString());
         //  解析结果
 
         //  插入数据
