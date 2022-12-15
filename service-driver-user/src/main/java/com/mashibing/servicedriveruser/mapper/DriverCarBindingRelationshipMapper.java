@@ -1,6 +1,6 @@
 package com.mashibing.servicedriveruser.mapper;
 
-import com.mashibing.servicedriveruser.entity.DriverUserBindingRelationship;
+import com.mashibing.internalcommon.dto.DriverCarBindingRelationship;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
  * @author mutkeb
  * @since 2022-12-15
  */
+
 @Repository
-public interface DriverUserBindingRelationshipMapper extends BaseMapper<DriverUserBindingRelationship> {
+public interface DriverCarBindingRelationshipMapper extends BaseMapper<DriverCarBindingRelationship> {
 
 }
