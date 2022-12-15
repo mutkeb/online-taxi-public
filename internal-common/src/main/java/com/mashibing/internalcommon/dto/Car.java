@@ -1,5 +1,7 @@
 package com.mashibing.internalcommon.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
  * @author mutkeb
  * @since 2022-12-15
  */
+@Data
 public class Car implements Serializable {
 
 
@@ -29,7 +32,7 @@ public class Car implements Serializable {
 
     private String model;
 
-    private String vehicle;
+    private String vehicleType;
 
     private String ownerName;
 
@@ -71,11 +74,11 @@ public class Car implements Serializable {
 
     private LocalDate registerDate;
 
-    private Integer commercialDate;
+    private Integer commercialType;
 
     private String fareType;
 
-    private Boolean state;
+    private Integer state;
 
     private LocalDateTime gmtCreate;
 
