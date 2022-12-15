@@ -76,6 +76,12 @@ public class DicDistrictService {
         return ResponseResult.success();
     }
 
+    /**
+     * 行政区等级转换
+     * @param level
+     * @return
+     */
+
     public int getLevel(String level){
         if (level.equals("country")){
             return 0;
@@ -88,6 +94,14 @@ public class DicDistrictService {
         }
         return 0;
     }
+
+    /**
+     * 插入数据
+     * @param addressCode
+     * @param addressName
+     * @param parentAddressCode
+     * @param level
+     */
 
     public void insertData(String addressCode,String addressName,String parentAddressCode,int level){
         DicDistrict dicDistrict = new DicDistrict();

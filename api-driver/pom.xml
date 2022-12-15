@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>api-boss</artifactId>
+    <artifactId>api-driver</artifactId>
 
     <dependencies>
         <dependency>

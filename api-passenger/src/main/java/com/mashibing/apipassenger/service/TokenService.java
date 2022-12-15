@@ -21,6 +21,11 @@ public class TokenService {
     @Autowired
     RedisTemplate redisTemplate;
 
+    /**
+     * 更新token
+     * @param refreshTokenSrc
+     * @return
+     */
 
     public ResponseResult refreshToken(String refreshTokenSrc){
         //  解析refreshToken
@@ -46,7 +51,6 @@ public class TokenService {
 
         String accessTokenKey = RedisPrefixUtils.generatorTokenKey(phone,identity,TokenConstant.ACCESS_TOKEN_TYPE);
 
-        //  TODO
         redisTemplate.opsForValue().set(accessTokenKey,accessToken,30, TimeUnit.DAYS);
         redisTemplate.opsForValue().set(refreshTokenKey,refreshToken,31, TimeUnit.DAYS);
 

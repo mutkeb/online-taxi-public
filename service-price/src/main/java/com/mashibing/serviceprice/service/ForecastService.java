@@ -28,6 +28,14 @@ public class ForecastService {
     @Autowired
     private PriceRuleMapper priceRuleMapper;
 
+    /**
+     * 预估价格
+     * @param depLongitude
+     * @param depLatitude
+     * @param destLongitude
+     * @param destLatitude
+     * @return
+     */
     public ResponseResult forecastPrice(String depLongitude,String depLatitude,String destLongitude,String destLatitude){
         log.info("出发地经度：" + depLongitude);
         log.info("出发地纬度：" + depLatitude);

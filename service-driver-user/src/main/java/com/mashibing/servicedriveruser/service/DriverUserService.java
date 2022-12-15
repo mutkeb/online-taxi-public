@@ -22,11 +22,28 @@ public class DriverUserService {
         return ResponseResult.success();
     }
 
+    /**
+     * 添加司机信息
+     * @param driverUser
+     * @return
+     */
     public ResponseResult addDriverUser(DriverUser driverUser){
         LocalDateTime now = LocalDateTime.now();
         driverUser.setGmtCreate(now);
         driverUser.setGmtModified(now);
         driverUserMapper.insert(driverUser);
+        return ResponseResult.success();
+    }
+
+    /**
+     * 修改司机信息
+     * @param driverUser
+     * @return
+     */
+    public ResponseResult updateUser(DriverUser driverUser){
+        LocalDateTime now = LocalDateTime.now();
+        driverUser.setGmtModified(now);
+        driverUserMapper.updateById(driverUser);
         return ResponseResult.success();
     }
 }

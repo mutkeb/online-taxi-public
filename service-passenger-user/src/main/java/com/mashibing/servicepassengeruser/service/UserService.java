@@ -19,7 +19,11 @@ public class UserService {
     @Autowired
     private PassengerUserMapper passengerUserMapper;
 
-
+    /**
+     * 注册登录逻辑
+     * @param passengerPhone
+     * @return
+     */
     public ResponseResult loginOrRegister(String passengerPhone){
         System.out.println("user service被调用，手机号：" + passengerPhone);
 

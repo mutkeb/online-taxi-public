@@ -18,6 +18,11 @@ public class UserService {
     @Autowired
     private ServicePassengerUserClient servicePassengerUserClient;
 
+    /**
+     * 获得accessToken
+     * @param accessToken
+     * @return
+     */
     public ResponseResult getUserByAccessToken(String accessToken){
         log.info("accessToken" + accessToken);
         //  解析accessToken
