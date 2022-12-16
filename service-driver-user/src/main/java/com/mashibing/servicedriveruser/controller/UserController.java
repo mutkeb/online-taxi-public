@@ -1,5 +1,6 @@
 package com.mashibing.servicedriveruser.controller;
 
+import com.mashibing.internalcommon.constant.DriverCarConstant;
 import com.mashibing.internalcommon.dto.DriverUser;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.response.DriverUserExistsResponse;
@@ -43,9 +44,9 @@ public class UserController {
         ResponseResult<DriverUser> user = driverUserService.getUser(driverPhone);
         DriverUser driverUserDb = user.getData();
         DriverUserExistsResponse response = new DriverUserExistsResponse();
-        int ifExists = 1;
+        int ifExists = DriverCarConstant.DRIVER_EXISTS;
         if (driverUserDb == null){
-            ifExists = 0;
+            ifExists = DriverCarConstant.DRIVER_NOT_EXISTS;
         }else{
             response.setDriverPhone(driverUserDb.getDriverPhone());
         }
