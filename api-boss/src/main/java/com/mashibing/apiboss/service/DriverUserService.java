@@ -1,20 +1,17 @@
 package com.mashibing.apiboss.service;
 
 
-import com.mashibing.apiboss.remote.DriverUserClient;
+import com.mashibing.apiboss.remote.ServiceDriverUserClient;
 import com.mashibing.internalcommon.dto.DriverUser;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Service
 public class DriverUserService {
 
     @Autowired
-    private DriverUserClient driverUserClient;
+    private ServiceDriverUserClient driverUserClient;
 
     /**
      * 添加司机
