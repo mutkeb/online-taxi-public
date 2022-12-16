@@ -47,7 +47,6 @@ public class UserService {
             passengerUser.setGmtModified(now);
 
             passengerUserMapper.insert(passengerUser);
-
         }
 
         return ResponseResult.success();
