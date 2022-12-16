@@ -6,10 +6,13 @@ import com.mashibing.internalcommon.constant.DriverCarConstant;
 import com.mashibing.internalcommon.dto.DriverCarBindingRelationship;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.servicedriveruser.mapper.DriverCarBindingRelationshipMapper;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -57,6 +60,24 @@ public class DriverCarBindingRelationshipService {
         driverCarBindingRelationship.setBindingTime(now);
         driverCarBindingRelationship.setBindState(DriverCarConstant.DRIVER_CAR_BIND);
         driverCarBindingRelationshipMapper.insert(driverCarBindingRelationship);
+        return ResponseResult.success();
+    }
+
+    public ResponseResult unbind(DriverCarBindingRelationship driverCarBindingRelationship){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("driver_id",driverCarBindingRelationship.getDriverId());
+        map.put("car_id",driverCarBindingRelationship.getCarId());
+        map.put("bind_state",DriverCarConstant.DRIVER_CAR_BIND);
+
+        List<DriverCarBindingRelationship> driverCarBindingRelationships = driverCarBindingRelationshipMapper.selectByMap(map);
+        if (driverCarBindingRelationships.isEmpty()){
+            return ResponseResult.fail(CommonStatusEnum.DRIVER_CAR_BIND_NOT_EXISTS.getCode(),CommonStatusEnum.DRIVER_CAR_BIND_NOT_EXISTS.getValue());
+        }
+        DriverCarBindingRelationship relationship = driverCarBindingRelationships.get(0);
+        LocalDateTime now = LocalDateTime.now();
+        relationship.setBindingTime(now);
+        relationship.setBindState(DriverCarConstant.DRIVER_CAR_UNBIND);
+        driverCarBindingRelationshipMapper.updateById(relationship);
         return ResponseResult.success();
     }
 }
