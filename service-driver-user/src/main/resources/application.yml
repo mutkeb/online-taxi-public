@@ -12,3 +12,10 @@ spring:
     password: w672118299
 server:
   port: 8086
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    com.baomidou.mybatisplus: debug
