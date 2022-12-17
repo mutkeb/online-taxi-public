@@ -21,7 +21,7 @@ public class MysqlGenerator {
                 })
                 //  策略配置
                 .strategyConfig(builder -> {
-                    builder.addInclude("driver_car_binding_relationship");
+                    builder.addInclude("driver_user_work_status");
                 })
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();
