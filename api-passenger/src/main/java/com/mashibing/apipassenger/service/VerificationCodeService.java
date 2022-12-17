@@ -66,8 +66,6 @@ public class VerificationCodeService {
      * @param verificationCode 验证码
      * @return
      */
-
-
     public ResponseResult checkCode(String passengerPhone, String verificationCode){
         //  根据手机号，去redis读取验证码
         System.out.println("根据手机号，去redis读取验证码");
