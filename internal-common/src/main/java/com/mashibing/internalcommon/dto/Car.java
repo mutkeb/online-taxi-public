@@ -28,6 +28,10 @@ public class Car implements Serializable {
 
     private String tid;
 
+    private String trid;
+
+    private String trname;
+
     private Integer seats;
 
     private String brand;
