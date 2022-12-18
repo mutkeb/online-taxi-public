@@ -26,6 +26,8 @@ public class Car implements Serializable {
 
     private String plateColor;
 
+    private String tid;
+
     private Integer seats;
 
     private String brand;
