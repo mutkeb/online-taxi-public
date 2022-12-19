@@ -24,7 +24,7 @@ public class TerminalClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    public ResponseResult add(String name){
+    public ResponseResult add(String name,String desc){
         //  url组装
         StringBuilder url = new StringBuilder();
         url.append(AmapConfigConstant.TERMINAL_ADD_URL);
@@ -34,8 +34,11 @@ public class TerminalClient {
         url.append("sid=" + sid);
         url.append("&");
         url.append("name=" + name);
-        log.info(url.toString());
+        url.append("&");
+        url.append("desc=" + desc);
+        log.info("终端请求：" + url.toString());
         ResponseEntity<String> entity = restTemplate.postForEntity(url.toString(), null, String.class);
+        log.info("终端响应：" + entity.getBody());
         String body = entity.getBody();
         JSONObject result = JSONObject.fromObject(body);
         JSONObject data = result.getJSONObject("data");
