@@ -2,7 +2,7 @@ package com.mashibing.servicedriveruser.service;
 
 import com.mashibing.internalcommon.dto.Car;
 import com.mashibing.internalcommon.dto.ResponseResult;
-import com.mashibing.internalcommon.response.TermnialResponse;
+import com.mashibing.internalcommon.response.TerminalResponse;
 import com.mashibing.internalcommon.response.TrackResponse;
 import com.mashibing.servicedriveruser.mapper.CarMapper;
 import com.mashibing.servicedriveruser.remote.ServiceMapClient;
@@ -32,7 +32,7 @@ public class CarService {
         //  保存车辆
         carMapper.insert(car);
         //  获得此车辆对应的tid
-        ResponseResult<TermnialResponse> responseResult = serviceMapClient.addTerminal(car.getVehicleNo(),car.getId() + "");
+        ResponseResult<TerminalResponse> responseResult = serviceMapClient.addTerminal(car.getVehicleNo(),car.getId() + "");
         String tid = responseResult.getData().getTid();
         car.setTid(tid);
         //  获得此轨迹的trid

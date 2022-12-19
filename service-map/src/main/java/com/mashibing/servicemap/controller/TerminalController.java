@@ -21,4 +21,9 @@ public class TerminalController {
 
         return terminalService.add(name,desc);
     }
+
+    @PostMapping("/aroundsearch")
+    public ResponseResult aroundSearch(@RequestParam String center,@RequestParam Long radius){
+        return terminalService.aroundSearch(center,radius);
+    }
 }

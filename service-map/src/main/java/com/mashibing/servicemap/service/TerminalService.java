@@ -15,4 +15,8 @@ public class TerminalService {
 
         return terminalClient.add(name,desc);
     }
+
+    public ResponseResult aroundSearch(String center,Long radius){
+        return terminalClient.aroundSearch(center,radius);
+    }
 }

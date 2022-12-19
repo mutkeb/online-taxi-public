@@ -32,6 +32,11 @@ public class AmapConfigConstant {
      * 上传轨迹
      */
     public static final String POINT_UPLOAD_URL = "https://tsapi.amap.com/v1/track/point/upload";
+
+    /**
+     * 周边搜索
+     */
+    public static final String TERMINAL_ARROUNDSEARCH = "https://tsapi.amap.com/v1/track/terminal/aroundsearch";
     /**
      * 路径规划json key值
      */
