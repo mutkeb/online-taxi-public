@@ -29,8 +29,10 @@ public class CarService {
         LocalDateTime now = LocalDateTime.now();
         car.setGmtCreate(now);
         car.setGmtModified(now);
+        //  保存车辆
+        carMapper.insert(car);
         //  获得此车辆对应的tid
-        ResponseResult<TermnialResponse> responseResult = serviceMapClient.addTerminal(car.getVehicleNo());
+        ResponseResult<TermnialResponse> responseResult = serviceMapClient.addTerminal(car.getVehicleNo(),car.getId() + "");
         String tid = responseResult.getData().getTid();
         car.setTid(tid);
         //  获得此轨迹的trid
@@ -39,7 +41,7 @@ public class CarService {
         String trname = trackResponseResponseResult.getData().getTrname();
         car.setTrid(trid);
         car.setTrname(trname);
-        carMapper.insert(car);
+        carMapper.updateById(car);
         return ResponseResult.success();
     }
 
