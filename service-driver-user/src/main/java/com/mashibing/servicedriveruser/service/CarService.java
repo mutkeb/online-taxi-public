@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -38,5 +41,18 @@ public class CarService {
         car.setTrname(trname);
         carMapper.insert(car);
         return ResponseResult.success();
+    }
+
+    /**
+     * 根据车辆id查找车辆
+     * @param id
+     * @return
+     */
+    public ResponseResult<Car> getCarById(Long id){
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("id",id);
+        List<Car> cars = carMapper.selectByMap(queryMap);
+        Car car = cars.get(0);
+        return ResponseResult.success(car);
     }
 }
