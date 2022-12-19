@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+
 @Service
 @Slf4j
 public class PointClient {
@@ -44,23 +46,23 @@ public class PointClient {
             url.append("%7B");
             String locatetime = point.getLocatetime();
             String location = point.getLocation();
-//            url.append("%22location%22");
-            url.append("location");
+            url.append("%22location%22");
+//            url.append("location");
             url.append("%3A");
-//            url.append("%22" + location + "%22");
-            url.append(location);
+            url.append("%22"+location+"%22");
+//            url.append(location);
             url.append("%2C");
 
-//            url.append("%22locatetime%22");
-            url.append("locatetime");
+            url.append("%22locatetime%22");
+//            url.append("locatetime");
             url.append("%3A");
             url.append(locatetime);
 
-            url.append("&7D");
+            url.append("%7D");
         }
-        url.append("5D");
+        url.append("%5D");
         log.info("高德地图请求：" + url.toString());
-        ResponseEntity<String> entity = restTemplate.postForEntity(url.toString(), null, String.class);
+        ResponseEntity<String> entity = restTemplate.postForEntity(URI.create(url.toString()), null, String.class);
         log.info("高德地图响应" + entity.getBody());
 
         return ResponseResult.success();
