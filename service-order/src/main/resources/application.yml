@@ -2,7 +2,7 @@ server:
   port: 8089
 spring:
   application:
-    name: server-order
+    name: service-order
   cloud:
     nacos:
       discovery:
