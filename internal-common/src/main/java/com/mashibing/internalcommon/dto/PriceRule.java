@@ -1,10 +1,20 @@
 package com.mashibing.internalcommon.dto;
 
-
 import lombok.Data;
 
+import java.io.Serializable;
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author mutkeb
+ * @since 2022-12-22
+ */
 @Data
-public class PriceRule {
+public class PriceRule implements Serializable {
+
 
     private String cityCode;
 
@@ -17,6 +27,10 @@ public class PriceRule {
     private Double unitPricePerMile;
 
     private Double unitPricePerMinute;
+
+    private String fareType;
+
+    private Integer fareVersion;
 
 
 }

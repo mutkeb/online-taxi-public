@@ -51,6 +51,8 @@ public class OrderInfo implements Serializable {
 
     private String fareType;
 
+    private Integer fareVersion;
+
     private String receiveOrderCarLongitude;
 
     private String receiveOrderCarLatitude;
