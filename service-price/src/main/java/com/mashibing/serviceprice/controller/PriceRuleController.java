@@ -21,14 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-12-22
  */
 @RestController
+@RequestMapping("price-rule")
 public class PriceRuleController {
 
     @Autowired
     private PriceRuleService priceRuleService;
 
-    @PostMapping("/price-rule")
+    @PostMapping("/add")
     public ResponseResult add(@RequestBody PriceRule priceRule){
         return priceRuleService.add(priceRule);
     }
 
+    @PostMapping("/edit")
+    public ResponseResult edit(@RequestBody PriceRule priceRule){
+        return priceRuleService.edit(priceRule);
+    }
 }
