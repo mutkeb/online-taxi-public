@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mashibing.serviceprice.mapper.PriceRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -82,4 +83,31 @@ public class PriceRuleService {
         return ResponseResult.success();
     }
 
+    public ResponseResult<PriceRule> getNewestVersion(String fareType){
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("fare_type",fareType);
+        queryWrapper.orderByDesc("fare_version");
+
+        List<PriceRule> list = priceRuleMapper.selectList(queryWrapper);
+        if (list.size() > 0){
+            return ResponseResult.success(list.get(0));
+        }else{
+            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EMPTY.getCode(),CommonStatusEnum.PRICE_RULE_EMPTY.getValue());
+        }
+    }
+
+    public ResponseResult<Boolean> isNew(@RequestParam String fareType,@RequestParam Integer fareVersion){
+        ResponseResult<PriceRule> newestVersion = getNewestVersion(fareType);
+        if (newestVersion.getCode() == CommonStatusEnum.PRICE_RULE_EMPTY.getCode()){
+            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EMPTY.getCode(),CommonStatusEnum.PRICE_RULE_EMPTY.getValue());
+        }
+        PriceRule priceRule = newestVersion.getData();
+        Integer fareVersionDB = priceRule.getFareVersion();
+        if (fareVersion < fareVersionDB){
+            return ResponseResult.success(false);
+        }else {
+            return ResponseResult.success(true);
+        }
+
+    }
 }
