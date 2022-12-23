@@ -75,6 +75,8 @@ public class ForecastService {
         response.setPrice(price);
         response.setCityCode(cityCode);
         response.setVehicleType(vehicleType);
+        response.setFareType(priceRule.getFareType());
+        response.setFareVersion(priceRule.getFareVersion());
         return ResponseResult.success(response);
     }
 
