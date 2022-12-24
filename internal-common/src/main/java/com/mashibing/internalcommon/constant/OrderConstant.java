@@ -4,6 +4,11 @@ package com.mashibing.internalcommon.constant;
 public class OrderConstant {
 
     /**
+     * 订单无效
+     */
+    public static final int ORDER_INVALID = 0;
+
+    /**
      * 订单开始
      */
     public static final int ORDER_START = 1;

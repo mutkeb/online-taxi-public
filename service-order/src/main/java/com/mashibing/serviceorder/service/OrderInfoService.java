@@ -1,5 +1,6 @@
 package com.mashibing.serviceorder.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mashibing.internalcommon.constant.CommonStatusEnum;
 import com.mashibing.internalcommon.constant.OrderConstant;
 import com.mashibing.internalcommon.dto.OrderInfo;
@@ -38,7 +39,21 @@ public class OrderInfoService {
         if (!(aNew.getData())){
             return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_CHANGED.getCode(),CommonStatusEnum.PRICE_RULE_CHANGED.getValue());
         }
-
+        //  判断有无正在运行的订单不允许下单
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("passenger_id",orderRequest.getPassengerId());
+        queryWrapper.and(wrapper->wrapper.eq("order_status",OrderConstant.ORDER_START)
+                .or().eq("order_status",OrderConstant.DRIVER_RECEIVE_ORDER)
+                .or().eq("order_status",OrderConstant.DRIVER_TO_PICK_UP_PASSENGER)
+                .or().eq("order_status",OrderConstant.DRIVER_ARRIVED_DEPARTURE)
+                .or().eq("order_status",OrderConstant.PICK_UP_PASSENGER)
+                .or().eq("order_status",OrderConstant.PASSENGER_GET_OFF)
+                .or().eq("order_status",OrderConstant.TO_START_PAY)
+        );
+        Integer integer = orderInfoMapper.selectCount(queryWrapper);
+        if (integer > 0){
+            return ResponseResult.fail(CommonStatusEnum.ORDER_GOING_ON.getCode(),CommonStatusEnum.ORDER_GOING_ON.getValue());
+        }
         //  创建订单
         OrderInfo order = new OrderInfo();
 
