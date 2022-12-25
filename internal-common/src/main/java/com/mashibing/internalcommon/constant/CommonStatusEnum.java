@@ -54,6 +54,8 @@ public enum CommonStatusEnum {
      */
     ORDER_GOING_ON(1600,"有正在进行的订单"),
 
+    DEVICE_IS_BLACK(1601,"该设备超过下单次数"),
+
     /**
      * 成功
      */

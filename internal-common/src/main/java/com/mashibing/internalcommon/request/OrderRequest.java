@@ -38,4 +38,6 @@ public class OrderRequest {
     private String fareType;
     //  运价版本
     private Integer fareVersion;
+    //  设备号
+    private String deviceCode;
 }
