@@ -40,6 +40,10 @@ public class OrderInfoService {
 
 
     public ResponseResult add(OrderRequest orderRequest){
+        //  判断下单城市和计价规则是否存在
+        if (!isPriceRuleExists(orderRequest)){
+            return ResponseResult.fail(CommonStatusEnum.CITY_SERVICE_NOT_SERVICE.getCode(),CommonStatusEnum.CITY_SERVICE_NOT_SERVICE.getValue());
+        }
         //  需要判断计价规则的版本是否最新
         String fareType = orderRequest.getFareType();
         Integer fareVersion = orderRequest.getFareVersion();
@@ -52,10 +56,6 @@ public class OrderInfoService {
             return ResponseResult.fail(CommonStatusEnum.DEVICE_IS_BLACK.getCode(), CommonStatusEnum.DEVICE_IS_BLACK.getValue());
         }
 
-        //  判断下单城市和计价规则是否存在
-        if (!isPriceRuleExists(orderRequest)){
-            return ResponseResult.fail(CommonStatusEnum.CITY_SERVICE_NOT_SERVICE.getCode(),CommonStatusEnum.CITY_SERVICE_NOT_SERVICE.getValue());
-        }
         //  判断有无正在运行的订单不允许下单
         if (isOrderGoingOn(orderRequest.getPassengerId()) > 0){
             return ResponseResult.fail(CommonStatusEnum.ORDER_GOING_ON.getCode(),CommonStatusEnum.ORDER_GOING_ON.getValue());
