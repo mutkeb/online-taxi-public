@@ -1,6 +1,7 @@
 package com.mashibing.servicedriveruser.controller;
 
 import com.mashibing.internalcommon.dto.ResponseResult;
+import com.mashibing.servicedriveruser.mapper.DriverUserMapper;
 import com.mashibing.servicedriveruser.service.DriverUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,16 @@ public class TestController {
     @GetMapping("/test-mapper")
     public ResponseResult testMapper(){
         return driverUserService.test();
+    }
+
+    //  测试mapper中得xml是否正常使用
+    @Autowired
+    private DriverUserMapper driverUserMapper;
+
+    @GetMapping("/test-xml")
+    public int testXml(String args){
+        int i = driverUserMapper.select1("1");
+        System.out.println(i);
+        return i;
     }
 }
