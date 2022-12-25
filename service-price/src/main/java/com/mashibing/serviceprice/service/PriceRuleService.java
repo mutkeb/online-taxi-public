@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mashibing.serviceprice.mapper.PriceRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -108,6 +109,21 @@ public class PriceRuleService {
         }else {
             return ResponseResult.success(true);
         }
+    }
 
+    public ResponseResult<Boolean> ifExists(@RequestBody PriceRule priceRule){
+        QueryWrapper queryWrapper = new QueryWrapper();
+        String cityCode = priceRule.getCityCode();
+        String vehicleType = priceRule.getVehicleType();
+        queryWrapper.eq("city_code",cityCode);
+        queryWrapper.eq("vehicle_type",vehicleType);
+        queryWrapper.orderByDesc("fare_version");
+
+        List list = priceRuleMapper.selectList(queryWrapper);
+        if (list.size() > 0){
+            return ResponseResult.success(true);
+        }else{
+            return ResponseResult.success(false);
+        }
     }
 }
