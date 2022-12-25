@@ -3,6 +3,6 @@
 <mapper namespace="com.mashibing.servicedriveruser.mapper.DriverUserMapper">
 
     <select id="select1" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select count(*) from v_city_driver_user_work_status
+        select count(*) from v_city_driver_user_work_status where city_code = #{cityCode}
     </select>
 </mapper>
