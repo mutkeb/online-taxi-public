@@ -9,6 +9,7 @@ import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.request.OrderRequest;
 import com.mashibing.internalcommon.util.RedisPrefixUtils;
 import com.mashibing.serviceorder.mapper.OrderInfoMapper;
+import com.mashibing.serviceorder.remote.ServiceDriverUserClient;
 import com.mashibing.serviceorder.remote.ServicePriceClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,19 @@ public class OrderInfoService {
     private ServicePriceClient servicePriceClient;
 
     @Autowired
+    private ServiceDriverUserClient serviceDriverUserClient;
+
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
 
     public ResponseResult add(OrderRequest orderRequest){
+        //  查看当前城市是否有可用司机
+        ResponseResult<Boolean> availableDriver = serviceDriverUserClient.isAvailableDriver(orderRequest.getAddress());
+        if (!availableDriver.getData()){
+            return ResponseResult.fail(CommonStatusEnum.CITY_DRIVER_EMPTY.getCode(),CommonStatusEnum.CITY_DRIVER_EMPTY.getValue());
+        }
+
         //  判断下单城市和计价规则是否存在
         if (!isPriceRuleExists(orderRequest)){
             return ResponseResult.fail(CommonStatusEnum.CITY_SERVICE_NOT_SERVICE.getCode(),CommonStatusEnum.CITY_SERVICE_NOT_SERVICE.getValue());
