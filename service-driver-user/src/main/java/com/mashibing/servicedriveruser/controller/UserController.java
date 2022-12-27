@@ -4,6 +4,7 @@ import com.mashibing.internalcommon.constant.DriverCarConstant;
 import com.mashibing.internalcommon.dto.DriverUser;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.response.DriverUserExistsResponse;
+import com.mashibing.internalcommon.response.OrderDriverResponse;
 import com.mashibing.servicedriveruser.service.DriverUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,8 @@ public class UserController {
         return ResponseResult.success(response);
     }
 
-
+    @GetMapping("/get-available-driver/{carId}")
+    public ResponseResult<OrderDriverResponse> getAvailableDriver(@PathVariable("carId") Long carId){
+        return driverUserService.getAvailableDriver(carId);
+    }
 }

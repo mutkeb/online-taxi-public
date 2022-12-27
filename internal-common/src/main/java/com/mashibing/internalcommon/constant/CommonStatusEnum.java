@@ -51,6 +51,8 @@ public enum CommonStatusEnum {
 
     CITY_DRIVER_EMPTY(1505,"当前城市无可用司机"),
 
+    AVAILABLE_DRIVER_EMPTY(1506,"可用司机为空"),
+
     /**
      * 订单 1600~1699
      */
