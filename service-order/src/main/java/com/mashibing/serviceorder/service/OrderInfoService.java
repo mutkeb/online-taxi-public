@@ -163,10 +163,15 @@ public class OrderInfoService {
             Long radius = radiusList.get(i);
             listResponseResult = serviceMapClient.aroundSearch(center, radius);
             log.info("在半径为：" + radius +"的范围内寻找车辆,结果:" + JSONArray.fromObject(listResponseResult.getData()).getJSONObject(0).toString());
-            //  获得终端
-            
-            //  解析终端
+            //  获得终端 {"carId":1604743372085096449,"tid":"612821667"}
 
+            //  解析终端
+            JSONArray jsonArray = JSONArray.fromObject(listResponseResult.getData());
+            for (int j = 0; j < jsonArray.size(); j++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String carIdString = jsonObject.getString("carId");
+                long carId = Long.parseLong(carIdString);
+            }
             //  根据解析出来的终端，查询车辆信息
 
             //  获得符合的车辆，进行派单
