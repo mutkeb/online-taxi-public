@@ -39,9 +39,7 @@ public class ForecastPriceService {
         priceDTO.setDestLatitude(destLatitude);
         priceDTO.setCityCode(cityCode);
         priceDTO.setVehicleType(vehicleType);
-        ResponseResult<ForecastPriceResponse> forecast = servicePriceClient.forecast(priceDTO);
-
-        return ResponseResult.success(forecast.getData());
+        return servicePriceClient.forecast(priceDTO);
     }
 
 }

@@ -7,6 +7,7 @@ import com.mashibing.internalcommon.dto.OrderInfo;
 import com.mashibing.internalcommon.dto.PriceRule;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.request.OrderRequest;
+import com.mashibing.internalcommon.request.PriceRuleIsNewRequest;
 import com.mashibing.internalcommon.response.TerminalResponse;
 import com.mashibing.internalcommon.util.RedisPrefixUtils;
 import com.mashibing.serviceorder.mapper.OrderInfoMapper;
@@ -61,7 +62,6 @@ public class OrderInfoService {
         if (!availableDriver.getData()){
             return ResponseResult.fail(CommonStatusEnum.CITY_DRIVER_EMPTY.getCode(),CommonStatusEnum.CITY_DRIVER_EMPTY.getValue());
         }
-
         //  判断下单城市和计价规则是否存在
         if (!isPriceRuleExists(orderRequest)){
             return ResponseResult.fail(CommonStatusEnum.CITY_SERVICE_NOT_SERVICE.getCode(),CommonStatusEnum.CITY_SERVICE_NOT_SERVICE.getValue());
@@ -69,7 +69,10 @@ public class OrderInfoService {
         //  需要判断计价规则的版本是否最新
         String fareType = orderRequest.getFareType();
         Integer fareVersion = orderRequest.getFareVersion();
-        ResponseResult<Boolean> aNew = servicePriceClient.isNew(fareType, fareVersion);
+        PriceRuleIsNewRequest priceRuleIsNewRequest = new PriceRuleIsNewRequest();
+        priceRuleIsNewRequest.setFareType(fareType);
+        priceRuleIsNewRequest.setFareVersion(fareVersion);
+        ResponseResult<Boolean> aNew = servicePriceClient.isNew(priceRuleIsNewRequest);
         if (!(aNew.getData())){
             return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_CHANGED.getCode(),CommonStatusEnum.PRICE_RULE_CHANGED.getValue());
         }
@@ -168,7 +171,7 @@ public class OrderInfoService {
             //  解析终端
             JSONArray jsonArray = JSONArray.fromObject(listResponseResult.getData());
             for (int j = 0; j < jsonArray.size(); j++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                JSONObject jsonObject = jsonArray.getJSONObject(j);
                 String carIdString = jsonObject.getString("carId");
                 long carId = Long.parseLong(carIdString);
             }

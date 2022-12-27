@@ -1,5 +1,6 @@
 package com.mashibing.servicedriveruser.service;
 
+import com.mashibing.internalcommon.constant.CommonStatusEnum;
 import com.mashibing.internalcommon.dto.Car;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.response.TerminalResponse;
@@ -33,6 +34,7 @@ public class CarService {
         carMapper.insert(car);
         //  获得此车辆对应的tid
         ResponseResult<TerminalResponse> responseResult = serviceMapClient.addTerminal(car.getVehicleNo(),car.getId() + "");
+
         String tid = responseResult.getData().getTid();
         car.setTid(tid);
         //  获得此轨迹的trid

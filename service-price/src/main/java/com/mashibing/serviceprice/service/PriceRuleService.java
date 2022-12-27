@@ -5,6 +5,7 @@ import com.mashibing.internalcommon.constant.CommonStatusEnum;
 import com.mashibing.internalcommon.dto.PriceRule;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mashibing.internalcommon.request.PriceRuleIsNewRequest;
 import com.mashibing.serviceprice.mapper.PriceRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,7 +98,9 @@ public class PriceRuleService {
         }
     }
 
-    public ResponseResult<Boolean> isNew(@RequestParam String fareType,@RequestParam Integer fareVersion){
+    public ResponseResult<Boolean> isNew(PriceRuleIsNewRequest priceRuleIsNewRequest){
+        String fareType = priceRuleIsNewRequest.getFareType();
+        Integer fareVersion = priceRuleIsNewRequest.getFareVersion();
         ResponseResult<PriceRule> newestVersion = getNewestVersion(fareType);
         if (newestVersion.getCode() == CommonStatusEnum.PRICE_RULE_EMPTY.getCode()){
 //            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EMPTY.getCode(),CommonStatusEnum.PRICE_RULE_EMPTY.getValue());

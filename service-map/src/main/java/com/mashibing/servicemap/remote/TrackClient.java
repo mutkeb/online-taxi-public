@@ -36,8 +36,10 @@ public class TrackClient {
         url.append("&");
         url.append("tid=" + tid);
         //  发送请求
+        log.info("高德地图创建轨迹请求:" + url.toString());
         ResponseEntity<String> entity = restTemplate.postForEntity(url.toString(), null, String.class);
         String body = entity.getBody();
+        log.info("高德地图创建轨迹响应:" + body);
         JSONObject result = JSONObject.fromObject(body);
         JSONObject data = result.getJSONObject("data");
         //  轨道id
