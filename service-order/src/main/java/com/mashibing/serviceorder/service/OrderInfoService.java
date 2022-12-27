@@ -7,16 +7,21 @@ import com.mashibing.internalcommon.dto.OrderInfo;
 import com.mashibing.internalcommon.dto.PriceRule;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.request.OrderRequest;
+import com.mashibing.internalcommon.response.TerminalResponse;
 import com.mashibing.internalcommon.util.RedisPrefixUtils;
 import com.mashibing.serviceorder.mapper.OrderInfoMapper;
 import com.mashibing.serviceorder.remote.ServiceDriverUserClient;
+import com.mashibing.serviceorder.remote.ServiceMapClient;
 import com.mashibing.serviceorder.remote.ServicePriceClient;
+import jdk.nashorn.internal.ir.Terminal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,6 +33,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2022-12-22
  */
 @Service
+@Slf4j
 public class OrderInfoService {
 
     @Autowired
@@ -38,6 +44,9 @@ public class OrderInfoService {
 
     @Autowired
     private ServiceDriverUserClient serviceDriverUserClient;
+
+    @Autowired
+    private ServiceMapClient serviceMapClient;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -82,6 +91,8 @@ public class OrderInfoService {
         order.setGmtModified(now);
 
         orderInfoMapper.insert(order);
+        //  派单
+        dispatchRealTimeOrder(order);
         return ResponseResult.success();
     }
 
@@ -94,7 +105,6 @@ public class OrderInfoService {
         PriceRule priceRule = new PriceRule();
         priceRule.setCityCode(cityCode);
         priceRule.setVehicleType(vehicleType);
-
         ResponseResult<Boolean> booleanResponseResult = servicePriceClient.ifExists(priceRule);
 
         return booleanResponseResult.getData();
@@ -131,5 +141,30 @@ public class OrderInfoService {
         );
         Integer integer = orderInfoMapper.selectCount(queryWrapper);
         return integer;
+    }
+
+    /**
+     * 实时订单派单逻辑
+     * @param orderInfo
+     */
+    public void dispatchRealTimeOrder(OrderInfo orderInfo){
+        String depLongitude = orderInfo.getDepLongitude();
+        String depLatitude = orderInfo.getDepLatitude();
+        String center = depLatitude + "," + depLongitude;
+        Long radius = 2000L;
+        ResponseResult<List<TerminalResponse>> listResponseResult = serviceMapClient.aroundSearch(center, radius);
+        if (listResponseResult.getData().size() == 0){
+            log.info("2km未找到");
+            radius = 4000L;
+            listResponseResult = serviceMapClient.aroundSearch(center,radius);
+            if (listResponseResult.getData().size() == 0){
+                log.info("4km未找到");
+                radius = 5000L;
+                listResponseResult = serviceMapClient.aroundSearch(center,radius);
+                if (listResponseResult.getData().size() == 0){
+                    log.info("此轮派单没找到车，找了2km，4km，5km");
+                }
+            }
+        }
     }
 }

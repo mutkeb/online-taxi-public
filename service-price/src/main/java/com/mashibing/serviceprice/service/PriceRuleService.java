@@ -100,8 +100,8 @@ public class PriceRuleService {
     public ResponseResult<Boolean> isNew(@RequestParam String fareType,@RequestParam Integer fareVersion){
         ResponseResult<PriceRule> newestVersion = getNewestVersion(fareType);
         if (newestVersion.getCode() == CommonStatusEnum.PRICE_RULE_EMPTY.getCode()){
-            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EMPTY.getCode(),CommonStatusEnum.PRICE_RULE_EMPTY.getValue());
-//            return ResponseResult.success(false);
+//            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EMPTY.getCode(),CommonStatusEnum.PRICE_RULE_EMPTY.getValue());
+            return ResponseResult.success(false);
         }
         PriceRule priceRule = newestVersion.getData();
         Integer fareVersionDB = priceRule.getFareVersion();
