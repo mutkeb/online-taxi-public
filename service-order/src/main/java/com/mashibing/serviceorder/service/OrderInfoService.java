@@ -8,6 +8,7 @@ import com.mashibing.internalcommon.dto.PriceRule;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.request.OrderRequest;
 import com.mashibing.internalcommon.request.PriceRuleIsNewRequest;
+import com.mashibing.internalcommon.response.OrderDriverResponse;
 import com.mashibing.internalcommon.response.TerminalResponse;
 import com.mashibing.internalcommon.util.RedisPrefixUtils;
 import com.mashibing.serviceorder.mapper.OrderInfoMapper;
@@ -51,6 +52,7 @@ public class OrderInfoService {
 
     @Autowired
     private ServiceMapClient serviceMapClient;
+
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -174,6 +176,13 @@ public class OrderInfoService {
                 JSONObject jsonObject = jsonArray.getJSONObject(j);
                 String carIdString = jsonObject.getString("carId");
                 long carId = Long.parseLong(carIdString);
+
+                ResponseResult<OrderDriverResponse> availableDriver = serviceDriverUserClient.getAvailableDriver(carId);
+                if (availableDriver.getCode() == CommonStatusEnum.AVAILABLE_DRIVER_EMPTY.getCode()){
+                    log.info("没有车辆ID：" + carId + "对应的司机");
+                }else{
+                    log.info("车辆ID:" + carId +",找到了正在出车的司机");
+                }
             }
             //  根据解析出来的终端，查询车辆信息
 
