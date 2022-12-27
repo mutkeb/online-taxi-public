@@ -75,7 +75,8 @@ public class TerminalClient {
         List<TerminalResponse> responseList = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
             JSONObject jsonObject = results.getJSONObject(i);
-            long carId = jsonObject.getLong("desc");
+            String desc = jsonObject.getString("desc");
+            long carId = Long.parseLong(desc);
             String tid = jsonObject.getString("tid");
             TerminalResponse terminalResponse = new TerminalResponse();
             terminalResponse.setCarId(carId);
