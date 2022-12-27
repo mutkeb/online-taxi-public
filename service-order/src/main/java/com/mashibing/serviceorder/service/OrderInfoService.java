@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -151,20 +152,25 @@ public class OrderInfoService {
         String depLongitude = orderInfo.getDepLongitude();
         String depLatitude = orderInfo.getDepLatitude();
         String center = depLatitude + "," + depLongitude;
-        Long radius = 2000L;
-        ResponseResult<List<TerminalResponse>> listResponseResult = serviceMapClient.aroundSearch(center, radius);
-        if (listResponseResult.getData().size() == 0){
-            log.info("2km未找到");
-            radius = 4000L;
-            listResponseResult = serviceMapClient.aroundSearch(center,radius);
-            if (listResponseResult.getData().size() == 0){
-                log.info("4km未找到");
-                radius = 5000L;
-                listResponseResult = serviceMapClient.aroundSearch(center,radius);
-                if (listResponseResult.getData().size() == 0){
-                    log.info("此轮派单没找到车，找了2km，4km，5km");
-                }
-            }
+        List<Long> radiusList = new ArrayList<>();
+        radiusList.add(2000L);
+        radiusList.add(4000L);
+        radiusList.add(5000L);
+        ResponseResult<List<TerminalResponse>> listResponseResult = null;
+        for (int i = 0; i < radiusList.size(); i++) {
+            Long radius = radiusList.get(i);
+            listResponseResult = serviceMapClient.aroundSearch(center, radius);
+            log.info("在半径为：" + radius +"的范围内寻找车辆");
+            //  获得终端
+
+            //  解析终端
+
+            //  根据解析出来的终端，查询车辆信息
+
+            //  获得符合的车辆，进行派单
+
+            //  如果派单成功则跳出循环
         }
+
     }
 }
