@@ -196,13 +196,12 @@ public class OrderInfoService {
             //  获得终端 {"carId":1604743372085096449,"tid":"612821667"}
 
             //  解析终端
-            JSONArray jsonArray = JSONArray.fromObject(listResponseResult.getData());
-            for (int j = 0; j < jsonArray.size(); j++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(j);
-                long latitude = jsonObject.getLong("latitude");
-                long longitude = jsonObject.getLong("longitude");
-                String carIdString = jsonObject.getString("carId");
-                long carId = Long.parseLong(carIdString);
+            List<TerminalResponse> data = listResponseResult.getData();
+            for (int j = 0; j < data.size(); j++) {
+                TerminalResponse terminalResponse = data.get(j);
+                String latitude = terminalResponse.getLatitude();
+                String longitude = terminalResponse.getLongitude();
+                long carId = terminalResponse.getCarId();
 
                 ResponseResult<OrderDriverResponse> availableDriver = serviceDriverUserClient.getAvailableDriver(carId);
                 if (availableDriver.getCode() == CommonStatusEnum.AVAILABLE_DRIVER_EMPTY.getCode()){
@@ -210,11 +209,11 @@ public class OrderInfoService {
                 }else{
                     log.info("车辆ID:" + carId +",找到了正在出车的司机");
                     //  查看司机是否有正在运行的订单
-                    OrderDriverResponse data = availableDriver.getData();
-                    Long driverId = data.getDriverId();
-                    String licenseId = data.getLicenseId();
-                    String vehicleNo = data.getVehicleNo();
-                    String driverPhone = data.getDriverPhone();
+                    OrderDriverResponse orderDriverResponse = availableDriver.getData();
+                    Long driverId = orderDriverResponse.getDriverId();
+                    String licenseId = orderDriverResponse.getLicenseId();
+                    String vehicleNo = orderDriverResponse.getVehicleNo();
+                    String driverPhone = orderDriverResponse.getDriverPhone();
                     Integer driverOrderGoingOn = isDriverOrderGoingOn(driverId);
                     if (driverOrderGoingOn > 0){
                         log.info("司机Id:" + driverId + "，正在进行的订单数量:" + driverOrderGoingOn);
@@ -230,8 +229,8 @@ public class OrderInfoService {
                     orderInfo.setLicenseId(licenseId);
                     orderInfo.setVehicleNo(vehicleNo);
 
-                    orderInfo.setReceiveOrderCarLatitude(latitude+"");
-                    orderInfo.setReceiveOrderCarLongitude(longitude+"");
+                    orderInfo.setReceiveOrderCarLatitude(latitude);
+                    orderInfo.setReceiveOrderCarLongitude(longitude);
                     orderInfo.setReceiveOrderTime(LocalDateTime.now());
 
                     orderInfo.setOrderStatus(OrderConstant.DRIVER_RECEIVE_ORDER);
