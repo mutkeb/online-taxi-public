@@ -199,6 +199,8 @@ public class OrderInfoService {
             JSONArray jsonArray = JSONArray.fromObject(listResponseResult.getData());
             for (int j = 0; j < jsonArray.size(); j++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(j);
+                long latitude = jsonObject.getLong("latitude");
+                long longitude = jsonObject.getLong("longitude");
                 String carIdString = jsonObject.getString("carId");
                 long carId = Long.parseLong(carIdString);
 
@@ -210,15 +212,33 @@ public class OrderInfoService {
                     //  查看司机是否有正在运行的订单
                     OrderDriverResponse data = availableDriver.getData();
                     Long driverId = data.getDriverId();
+                    String licenseId = data.getLicenseId();
+                    String vehicleNo = data.getVehicleNo();
+                    String driverPhone = data.getDriverPhone();
                     Integer driverOrderGoingOn = isDriverOrderGoingOn(driverId);
                     if (driverOrderGoingOn > 0){
                         log.info("司机Id:" + driverId + "，正在进行的订单数量:" + driverOrderGoingOn);
                         continue;
-                    }else{
-                        log.info("司机Id:" + driverId + "无正在进行的订单");
-                        ifFind = true;
-                        break;
                     }
+                    //  订单直接匹配司机
+                    //  查询当前车辆信息
+
+                    //  查询当前司机信息
+                    orderInfo.setDriverId(driverId);
+                    orderInfo.setDriverPhone(driverPhone);
+                    orderInfo.setCarId(carId);
+                    orderInfo.setLicenseId(licenseId);
+                    orderInfo.setVehicleNo(vehicleNo);
+
+                    orderInfo.setReceiveOrderCarLatitude(latitude+"");
+                    orderInfo.setReceiveOrderCarLongitude(longitude+"");
+                    orderInfo.setReceiveOrderTime(LocalDateTime.now());
+
+                    orderInfo.setOrderStatus(OrderConstant.DRIVER_RECEIVE_ORDER);
+
+                    orderInfoMapper.updateById(orderInfo);
+                    ifFind = true;
+                    break;
                 }
             }
             //  根据解析出来的终端，查询车辆信息
