@@ -84,7 +84,7 @@ public class OrderInfoService {
         }
 
         //  判断有无正在运行的订单不允许下单
-        if (isOrderGoingOn(orderRequest.getPassengerId()) > 0){
+        if (isPassengerOrderGoingOn(orderRequest.getPassengerId()) > 0){
             return ResponseResult.fail(CommonStatusEnum.ORDER_GOING_ON.getCode(),CommonStatusEnum.ORDER_GOING_ON.getValue());
         }
 
@@ -136,7 +136,13 @@ public class OrderInfoService {
         return false;
     }
 
-    private Integer isOrderGoingOn(Long passengerId){
+    /**
+     * 判断乘客是否有正在运行的订单
+     * @param passengerId
+     * @return
+     */
+
+    private Integer isPassengerOrderGoingOn(Long passengerId){
         QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper();
         queryWrapper.eq("passenger_id",passengerId);
         queryWrapper.and(wrapper->wrapper.eq("order_status",OrderConstant.ORDER_START)
@@ -146,6 +152,24 @@ public class OrderInfoService {
                 .or().eq("order_status",OrderConstant.PICK_UP_PASSENGER)
                 .or().eq("order_status",OrderConstant.PASSENGER_GET_OFF)
                 .or().eq("order_status",OrderConstant.TO_START_PAY)
+        );
+        Integer integer = orderInfoMapper.selectCount(queryWrapper);
+        return integer;
+    }
+
+    /**
+     * 查看司机是否有正在运行的订单
+     * @param driverId
+     * @return
+     */
+    private Integer isDriverOrderGoingOn(Long driverId){
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("driver_id",driverId);
+        queryWrapper.and(wrapper->wrapper.eq("order_status",OrderConstant.ORDER_START)
+                .or().eq("order_status",OrderConstant.DRIVER_RECEIVE_ORDER)
+                .or().eq("order_status",OrderConstant.DRIVER_TO_PICK_UP_PASSENGER)
+                .or().eq("order_status",OrderConstant.DRIVER_ARRIVED_DEPARTURE)
+                .or().eq("order_status",OrderConstant.PICK_UP_PASSENGER)
         );
         Integer integer = orderInfoMapper.selectCount(queryWrapper);
         return integer;
@@ -164,7 +188,8 @@ public class OrderInfoService {
         radiusList.add(4000L);
         radiusList.add(5000L);
         ResponseResult<List<TerminalResponse>> listResponseResult = null;
-        for (int i = 0; i < radiusList.size(); i++) {
+        boolean ifFind = false;
+        for (int i = 0; i < radiusList.size() && !ifFind; i++) {
             Long radius = radiusList.get(i);
             listResponseResult = serviceMapClient.aroundSearch(center, radius);
             log.info("在半径为：" + radius +"的范围内寻找车辆,结果:" + JSONArray.fromObject(listResponseResult.getData()).getJSONObject(0).toString());
@@ -182,6 +207,18 @@ public class OrderInfoService {
                     log.info("没有车辆ID：" + carId + "对应的司机");
                 }else{
                     log.info("车辆ID:" + carId +",找到了正在出车的司机");
+                    //  查看司机是否有正在运行的订单
+                    OrderDriverResponse data = availableDriver.getData();
+                    Long driverId = data.getDriverId();
+                    Integer driverOrderGoingOn = isDriverOrderGoingOn(driverId);
+                    if (driverOrderGoingOn > 0){
+                        log.info("司机Id:" + driverId + "，正在进行的订单数量:" + driverOrderGoingOn);
+                        continue;
+                    }else{
+                        log.info("司机Id:" + driverId + "无正在进行的订单");
+                        ifFind = true;
+                        break;
+                    }
                 }
             }
             //  根据解析出来的终端，查询车辆信息
