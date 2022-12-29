@@ -19,6 +19,8 @@ import jdk.nashorn.internal.ir.Terminal;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -52,6 +54,9 @@ public class OrderInfoService {
 
     @Autowired
     private ServiceMapClient serviceMapClient;
+
+    @Autowired
+    private RedissonClient redissonClient;
 
 
     @Autowired
@@ -214,9 +219,15 @@ public class OrderInfoService {
                     String licenseId = orderDriverResponse.getLicenseId();
                     String vehicleNo = orderDriverResponse.getVehicleNo();
                     String driverPhone = orderDriverResponse.getDriverPhone();
+
+                    String lockKey = (driverId + "").intern();
+                    RLock lock = redissonClient.getLock(lockKey);
+                    lock.lock();
+
                     Integer driverOrderGoingOn = isDriverOrderGoingOn(driverId);
                     if (driverOrderGoingOn > 0){
                         log.info("司机Id:" + driverId + "，正在进行的订单数量:" + driverOrderGoingOn);
+                        lock.unlock();
                         continue;
                     }
                     //  订单直接匹配司机
@@ -237,6 +248,8 @@ public class OrderInfoService {
 
                     orderInfoMapper.updateById(orderInfo);
                     ifFind = true;
+
+                    lock.unlock();
                     break;
                 }
             }
