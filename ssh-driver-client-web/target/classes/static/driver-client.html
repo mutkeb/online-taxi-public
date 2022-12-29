@@ -9,6 +9,15 @@
 <button onclick="sendMessageContent('鼠标点我了')">测试message展示</button>
 <div id="message">展示服务的推送过来的消息的地方</br></div>
 <script>
+    driverId = 1;
+    if (window.EventSource){
+        console.log("此浏览器支持SSE");
+        //  连接的建立
+        source = new EventSource("http://localhost:9000/connect/" + driverId);
+    }else {
+        console.log("此浏览器不支持");
+    }
+
     function sendMessageContent(content) {
         document.getElementById("message").innerHTML += (content+'</br>');
     }
