@@ -14,6 +14,14 @@
         console.log("此浏览器支持SSE");
         //  连接的建立
         source = new EventSource("http://localhost:9000/connect/" + driverId);
+
+        //  监听服务的推送的内容
+        source.addEventListener("message",function (e) {
+            content = e.data;
+            console.log(content);
+            sendMessageContent(content);
+        });
+
     }else {
         console.log("此浏览器不支持");
     }
