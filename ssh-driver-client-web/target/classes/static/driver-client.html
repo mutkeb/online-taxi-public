@@ -4,5 +4,14 @@
     <meta charset="UTF-8">
 </head>
 
-<body>司机客户端的模拟页面</body>
+<body>
+<h1>司机客户端的模拟页面</h1>
+<button onclick="sendMessageContent('鼠标点我了')">测试message展示</button>
+<div id="message">展示服务的推送过来的消息的地方</br></div>
+<script>
+    function sendMessageContent(content) {
+        document.getElementById("message").innerHTML += (content+'</br>');
+    }
+</script>
+</body>
 </html>
