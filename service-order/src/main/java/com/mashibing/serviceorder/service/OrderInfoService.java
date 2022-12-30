@@ -110,8 +110,21 @@ public class OrderInfoService {
         order.setGmtModified(now);
 
         orderInfoMapper.insert(order);
-        //  派单
-        dispatchRealTimeOrder(order);
+        //  定时任务的处理
+        for (int i = 0; i < 6; i++) {
+            //  派单
+            int result = dispatchRealTimeOrder(order);
+            if (result == 1){
+                break;
+            }
+
+            //  等待20秒
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return ResponseResult.success();
     }
 
@@ -190,7 +203,10 @@ public class OrderInfoService {
      * 实时订单派单逻辑
      * @param orderInfo
      */
-    public void dispatchRealTimeOrder(OrderInfo orderInfo){
+    public int dispatchRealTimeOrder(OrderInfo orderInfo){
+        log.info("循环一次");
+        int result = 0;
+
         String depLongitude = orderInfo.getDepLongitude();
         String depLatitude = orderInfo.getDepLatitude();
         String center = depLatitude + "," + depLongitude;
@@ -286,12 +302,14 @@ public class OrderInfoService {
                     passengerContent.put("receiveOrderCarLongitude",orderInfo.getReceiveOrderCarLongitude());
 
                     serviceSsePushClient.push(orderInfo.getPassengerId(), IdentityConstant.PASSENGER_IDENTITY,passengerContent.toString());
+                    result = 1;
+
                     lock.unlock();
                     break;
                 }
             }
 
         }
-
+        return result;
     }
 }
