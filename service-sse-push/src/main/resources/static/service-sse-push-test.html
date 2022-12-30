@@ -10,8 +10,8 @@
 <div id="message">展示服务的推送过来的消息的地方</br></div>
 <button onclick="sourceClose()">关闭连接</button>
 <script>
-    userId = 1;
-    identity = 1;
+    userId = "1607706390238535681";
+    identity = 2;
     source = new EventSource("http://localhost:9000/connect?userId=" + userId+"&identity="+identity);
 
     if (window.EventSource){
