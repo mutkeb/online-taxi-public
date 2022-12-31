@@ -20,4 +20,19 @@ public class OrderController {
     public ResponseResult changeStatus(@RequestBody OrderRequest orderRequest){
         return apiDriverOrderInfoService.changeStatus(orderRequest);
     }
+
+    @PostMapping("/arrived-departure")
+    public ResponseResult arrivedDeparture(@RequestBody OrderRequest orderRequest){
+        return apiDriverOrderInfoService.arrivedDeparture(orderRequest);
+    }
+
+    @PostMapping("/pick-up-passenger")
+    public ResponseResult pickUpPassenger(@RequestBody OrderRequest orderRequest){
+        return apiDriverOrderInfoService.pickUpPassenger(orderRequest);
+    }
+
+    @PostMapping("/passenger-getoff")
+    public ResponseResult passengerGetOff(@RequestBody OrderRequest orderRequest){
+        return apiDriverOrderInfoService.passengerGetOff(orderRequest);
+    }
 }
