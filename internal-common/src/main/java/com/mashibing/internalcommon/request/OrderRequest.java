@@ -49,4 +49,10 @@ public class OrderRequest {
     private String toPickUpPassengerLatitude;
 
     private String toPickUpPassengerAddress;
+
+    private LocalDateTime pickUpPassengerTime;
+
+    private String pickUpPassengerLongitude;
+
+    private String pickUpPassengerLatitude;
 }

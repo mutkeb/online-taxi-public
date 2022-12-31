@@ -352,6 +352,11 @@ public class OrderInfoService {
         return ResponseResult.success();
     }
 
+    /**
+     * 司机到达乘客地点
+     * @param orderRequest
+     * @return
+     */
     public ResponseResult arrivedDeparture(OrderRequest orderRequest){
         QueryWrapper orderQueryWrapper = new QueryWrapper();
         orderQueryWrapper.eq("id",orderRequest.getOrderId());
@@ -359,6 +364,30 @@ public class OrderInfoService {
 
         orderInfo.setDriverArrivedDepatureTime(LocalDateTime.now());
         orderInfo.setOrderStatus(OrderConstant.DRIVER_ARRIVED_DEPARTURE);
+
+        orderInfoMapper.updateById(orderInfo);
+
+        return ResponseResult.success();
+    }
+
+    /**
+     * 司机接到乘客
+     * @param orderRequest
+     * @return
+     */
+    public ResponseResult pickUpPassenger(OrderRequest orderRequest){
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id",orderRequest.getOrderId());
+
+        String pickUpPassengerLatitude = orderRequest.getPickUpPassengerLatitude();
+        String pickUpPassengerLongitude = orderRequest.getPickUpPassengerLongitude();
+
+        OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
+
+        orderInfo.setPickUpPassengerLatitude(pickUpPassengerLatitude);
+        orderInfo.setPickUpPassengerLongitude(pickUpPassengerLongitude);
+        orderInfo.setPickUpPassengerTime(LocalDateTime.now());
+        orderInfo.setOrderStatus(OrderConstant.PICK_UP_PASSENGER);
 
         orderInfoMapper.updateById(orderInfo);
 
