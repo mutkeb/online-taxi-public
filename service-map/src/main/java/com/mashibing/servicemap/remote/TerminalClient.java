@@ -3,6 +3,7 @@ package com.mashibing.servicemap.remote;
 import com.mashibing.internalcommon.constant.AmapConfigConstant;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.response.TerminalResponse;
+import com.mashibing.internalcommon.response.TrsearchResponse;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -91,7 +92,7 @@ public class TerminalClient {
         return ResponseResult.success(responseList);
     }
 
-    public ResponseResult trsearch(String tid,Long starttime,Long endtime){
+    public ResponseResult<TrsearchResponse> trsearch(String tid,Long starttime,Long endtime){
         //  url组装
         StringBuilder url = new StringBuilder();
         url.append(AmapConfigConstant.TERMINAL_TRSEARCH);
@@ -109,6 +110,27 @@ public class TerminalClient {
         ResponseEntity<String> entity = restTemplate.postForEntity(url.toString(), null, String.class);
         log.info("终端响应：" + entity.getBody());
 
-        return ResponseResult.success();
+        JSONObject result = JSONObject.fromObject(entity.getBody());
+        JSONObject data = result.getJSONObject("data");
+        int counts = data.getInt("counts");
+        if (counts == 0){
+            return null;
+        }
+        JSONArray tracks = data.getJSONArray("tracks");
+        Long driveMile = 0L;
+        Long driveTime = 0L;
+        for (int i = 0; i < tracks.size(); i++) {
+            JSONObject jsonObject = tracks.getJSONObject(i);
+
+            long distance = jsonObject.getLong("distance");
+            driveMile =  driveMile + distance;
+            long time = jsonObject.getLong("time");
+            time = time / (1000 * 60);
+            driveTime = driveTime + time;
+        }
+        TrsearchResponse trsearchResponse = new TrsearchResponse();
+        trsearchResponse.setDriveMile(driveMile);
+        trsearchResponse.setDriveTime(driveTime);
+        return ResponseResult.success(trsearchResponse);
     }
 }
