@@ -30,4 +30,9 @@ public class TerminalController {
     public ResponseResult<List<TerminalResponse>> aroundSearch(@RequestParam String center, @RequestParam Long radius){
         return terminalService.aroundSearch(center,radius);
     }
+
+    @PostMapping("/trsearch")
+    public ResponseResult trsearch(String tid,Long starttime,Long endtime){
+        return terminalService.trsearch(tid,starttime,endtime);
+    }
 }

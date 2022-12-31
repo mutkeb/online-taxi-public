@@ -90,4 +90,25 @@ public class TerminalClient {
         }
         return ResponseResult.success(responseList);
     }
+
+    public ResponseResult trsearch(String tid,Long starttime,Long endtime){
+        //  url组装
+        StringBuilder url = new StringBuilder();
+        url.append(AmapConfigConstant.TERMINAL_TRSEARCH);
+        url.append("?");
+        url.append("key="  + amapKey);
+        url.append("&");
+        url.append("sid=" + sid);
+        url.append("&");
+        url.append("tid=" + tid);
+        url.append("&");
+        url.append("starttime=" + starttime);
+        url.append("&");
+        url.append("endtime=" + endtime);
+        log.info("终端请求：" + url.toString());
+        ResponseEntity<String> entity = restTemplate.postForEntity(url.toString(), null, String.class);
+        log.info("终端响应：" + entity.getBody());
+
+        return ResponseResult.success();
+    }
 }
