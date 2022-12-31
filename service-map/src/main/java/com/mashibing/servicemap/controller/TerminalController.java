@@ -33,7 +33,7 @@ public class TerminalController {
     }
 
     @PostMapping("/trsearch")
-    public ResponseResult<TrsearchResponse> trsearch(String tid, Long starttime, Long endtime){
+    public ResponseResult<TrsearchResponse> trsearch(@RequestParam String tid, @RequestParam Long starttime,@RequestParam  Long endtime){
         return terminalService.trsearch(tid,starttime,endtime);
     }
 }
