@@ -55,4 +55,10 @@ public class OrderRequest {
     private String pickUpPassengerLongitude;
 
     private String pickUpPassengerLatitude;
+
+    private LocalDateTime passengerGetoffTime;
+
+    private String passengerGetoffLongitude;
+
+    private String passengerGetoffLatitude;
 }
