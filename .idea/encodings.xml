@@ -13,6 +13,7 @@
     <file url="file://$PROJECT_DIR$/service-price/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-sse-push/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-verificationcode/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test-alipay/src/main/java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
