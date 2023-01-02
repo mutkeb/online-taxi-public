@@ -256,6 +256,13 @@ public class OrderInfoService {
                     String licenseId = orderDriverResponse.getLicenseId();
                     String vehicleNo = orderDriverResponse.getVehicleNo();
                     String driverPhone = orderDriverResponse.getDriverPhone();
+                    //  判断车辆的车型是否符合(搜索到的车辆不一定都是符合要求的)
+                    String vehicleTypeFromCar = orderDriverResponse.getVehicleType();
+                    String vehicleType = orderInfo.getVehicleType();
+                    if (!vehicleTypeFromCar.trim().equals(vehicleType.trim())){
+                        log.info("车型不符合");
+                        continue;
+                    }
 
                     String lockKey = (driverId + "").intern();
                     RLock lock = redissonClient.getLock(lockKey);

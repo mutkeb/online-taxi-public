@@ -29,6 +29,8 @@ public class OrderInfo implements Serializable {
 
     private Long carId;
 
+    private String vehicleType;
+
     private String address;
 
     private LocalDateTime orderTime;
