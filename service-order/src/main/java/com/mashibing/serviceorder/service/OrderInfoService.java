@@ -427,8 +427,8 @@ public class OrderInfoService {
         Long starttime = orderInfo.getPickUpPassengerTime().toInstant(ZoneOffset.of("+8")).toEpochMilli();
         Long endtime = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
         //  1671340277001~1671340277008
-//        ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, starttime, endtime);
-        ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, 1671340277001L, 1671340277008L);
+        ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, starttime, endtime);
+//        ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, 1671340277001L, 1671340277008L);
 
         Long driveMile = trsearch.getData().getDriveMile();
         Long driveTime = trsearch.getData().getDriveTime();
