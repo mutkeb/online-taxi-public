@@ -426,10 +426,21 @@ public class OrderInfoService {
         String tid = carById.getData().getTid();
         Long starttime = orderInfo.getPickUpPassengerTime().toInstant(ZoneOffset.of("+8")).toEpochMilli();
         Long endtime = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
-        ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, starttime, endtime);
+        //  1671340277001~1671340277008
+//        ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, starttime, endtime);
+        ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, 1671340277001L, 1671340277008L);
 
-        orderInfo.setDriveMile(trsearch.getData().getDriveMile());
-        orderInfo.setDriveTime(trsearch.getData().getDriveTime());
+        Long driveMile = trsearch.getData().getDriveMile();
+        Long driveTime = trsearch.getData().getDriveTime();
+        orderInfo.setDriveMile(driveMile);
+        orderInfo.setDriveTime(driveTime);
+
+        //  计算实际价格
+        String address = orderInfo.getAddress();
+        String vehicleType = orderInfo.getVehicleType();
+        ResponseResult<Double> doubleResponseResult = servicePriceClient.calculatePrice(driveMile.intValue(), driveTime.intValue(), address, vehicleType);
+        Double price = doubleResponseResult.getData();
+        orderInfo.setPrice(price);
 
         orderInfoMapper.updateById(orderInfo);
         return ResponseResult.success();

@@ -99,6 +99,8 @@ public class OrderInfo implements Serializable {
 
     private Integer orderStatus;
 
+    private Double price;
+
     private LocalDateTime gmtCreate;
 
     private LocalDateTime gmtModified;
