@@ -1,0 +1,37 @@
+整体联调:
+
+乘客端：
+手机号:18658560942
+验证码:843201
+{
+    "code": 1,
+    "message": "success",
+    "data": {
+        "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzZW5nZXJQaG9uZSI6IjE4NjU4NTYwOTQyIiwiaWRlbnRpdHkiOiIxIiwidG9rZW5UaW1lIjoiVHVlIEphbiAwMyAxODowNToxMCBDU1QgMjAyMyIsInRva2VuVHlwZSI6ImFjY2Vzc1Rva2VuIn0.XHNlRTkLZV8BPwRgFicqi2drqsFOkxRtL_Knd82wGiI",
+        "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzZW5nZXJQaG9uZSI6IjE4NjU4NTYwOTQyIiwiaWRlbnRpdHkiOiIxIiwidG9rZW5UaW1lIjoiVHVlIEphbiAwMyAxODowNToxMCBDU1QgMjAyMyIsInRva2VuVHlwZSI6InJlZnJlc2hUb2tlbiJ9.KdPFElc_Ng_zboKvk6cVZs_KLia4s0T6G4csDtPYOyI"
+    }
+}
+
+预估价格
+{
+    "depLongitude": "116.81",
+    "depLatitude": "40.07",
+    "destLongitude": "116.76",
+    "destLatitude": "40.09",
+    "cityCode":"110000",
+    "vehicleType":"1"
+}
+
+
+司机端：
+手机号:13910733522
+验证码:330942
+
+{
+    "code": 1,
+    "message": "success",
+    "data": {
+        "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzZW5nZXJQaG9uZSI6IjEzOTEwNzMzNTIyIiwiaWRlbnRpdHkiOiIyIiwidG9rZW5UaW1lIjoiVHVlIEphbiAwMyAxOToxMDoyMiBDU1QgMjAyMyIsInRva2VuVHlwZSI6ImFjY2Vzc1Rva2VuIn0.xkA7GHGpYADhZQktZIt-H5k2-QKRIrCCwxEHLHMd4ic",
+        "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzZW5nZXJQaG9uZSI6IjEzOTEwNzMzNTIyIiwiaWRlbnRpdHkiOiIyIiwidG9rZW5UaW1lIjoiVHVlIEphbiAwMyAxOToxMDoyMiBDU1QgMjAyMyIsInRva2VuVHlwZSI6InJlZnJlc2hUb2tlbiJ9.D0BGTwnJYyilXEf89EOkBJSYZPTkZ9aZGvMuN-BFfIk"
+    }
+}
