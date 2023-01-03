@@ -445,4 +445,22 @@ public class OrderInfoService {
         orderInfoMapper.updateById(orderInfo);
         return ResponseResult.success();
     }
+
+    /**
+     * 乘客支付订单
+     * @param orderRequest
+     * @return
+     */
+    public ResponseResult pay(OrderRequest orderRequest){
+        Long orderId = orderRequest.getOrderId();
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id",orderId);
+
+        OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
+
+        orderInfo.setOrderStatus(OrderConstant.SUCCESS_PAY);
+        orderInfoMapper.updateById(orderInfo);
+
+        return ResponseResult.success();
+    }
 }

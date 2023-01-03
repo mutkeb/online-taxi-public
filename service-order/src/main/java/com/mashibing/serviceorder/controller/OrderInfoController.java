@@ -46,4 +46,9 @@ public class OrderInfoController {
     public ResponseResult passengerGetOff(@RequestBody OrderRequest orderRequest){
         return orderService.passengerGetOff(orderRequest);
     }
+
+    @PostMapping("/pay")
+    public ResponseResult pay(@RequestBody OrderRequest orderRequest){
+        return orderService.pay(orderRequest);
+    }
 }
