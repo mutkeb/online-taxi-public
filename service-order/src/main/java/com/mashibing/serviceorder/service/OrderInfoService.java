@@ -124,12 +124,17 @@ public class OrderInfoService {
             if (result == 1){
                 break;
             }
-
-            //  等待20秒
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (i == 5){
+                //  订单无效
+                order.setOrderStatus(OrderConstant.ORDER_INVALID);
+                orderInfoMapper.updateById(order);
+            }else{
+                //  等待20秒
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return ResponseResult.success();
@@ -235,7 +240,7 @@ public class OrderInfoService {
         for (int i = 0; i < radiusList.size() && !ifFind; i++) {
             Long radius = radiusList.get(i);
             listResponseResult = serviceMapClient.aroundSearch(center, radius);
-            log.info("在半径为：" + radius +"的范围内寻找车辆,结果:" + JSONArray.fromObject(listResponseResult.getData()).getJSONObject(0).toString());
+//            log.info("在半径为：" + radius +"的范围内寻找车辆,结果:" + JSONArray.fromObject(listResponseResult.getData()).getJSONObject(0).toString());
             //  获得终端 {"carId":1604743372085096449,"tid":"612821667"}
 
             //  解析终端
