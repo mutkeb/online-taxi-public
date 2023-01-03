@@ -1,21 +1,17 @@
-package com.mashibing.testAliPay;
+package com.mashibing.servicepay;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-public class TestAliPayApplication {
+@EnableDiscoveryClient
+public class ServicePayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(TestAliPayApplication.class);
+        SpringApplication.run(ServicePayApplication.class);
     }
 
-    @PostMapping("/test")
-    public String test(){
-        System.out.println("支付宝回调");
-        return "测试";
-    }
 }

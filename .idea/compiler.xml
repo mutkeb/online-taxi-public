@@ -15,8 +15,8 @@
         <module name="service-passenger-user" />
         <module name="internal-common" />
         <module name="service-sse-push" />
-        <module name="test-alipay" />
         <module name="service-verificationcode" />
+        <module name="service-pay" />
         <module name="api-driver" />
         <module name="service-map" />
       </profile>
@@ -32,10 +32,10 @@
       <module name="service-map" options="-parameters" />
       <module name="service-order" options="-parameters" />
       <module name="service-passenger-user" options="-parameters" />
+      <module name="service-pay" options="-parameters" />
       <module name="service-price" options="-parameters" />
       <module name="service-sse-push" options="-parameters" />
       <module name="service-verificationcode" options="-parameters" />
-      <module name="test-alipay" options="-parameters" />
     </option>
   </component>
 </project>
