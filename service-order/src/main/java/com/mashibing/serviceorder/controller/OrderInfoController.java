@@ -51,4 +51,9 @@ public class OrderInfoController {
     public ResponseResult pay(@RequestBody OrderRequest orderRequest){
         return orderService.pay(orderRequest);
     }
+
+    @PostMapping("/cancel")
+    public ResponseResult cancel(@RequestParam Long orderId,@RequestParam String identity){
+        return orderService.cancel(orderId,identity);
+    }
 }

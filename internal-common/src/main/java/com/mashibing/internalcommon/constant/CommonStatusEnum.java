@@ -63,6 +63,8 @@ public enum CommonStatusEnum {
 
     CITY_SERVICE_NOT_SERVICE(1602,"当前城市不提供叫车服务"),
 
+    ORDER_CANCEL_ERROR(1603,"订单取消失败"),
+
     /**
      * 成功
      */
