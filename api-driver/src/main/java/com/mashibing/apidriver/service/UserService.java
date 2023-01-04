@@ -1,6 +1,7 @@
 package com.mashibing.apidriver.service;
 
 import com.mashibing.apidriver.remote.ServiceDriverUserClient;
+import com.mashibing.internalcommon.dto.DriverCarBindingRelationship;
 import com.mashibing.internalcommon.dto.DriverUser;
 import com.mashibing.internalcommon.dto.DriverUserWorkStatus;
 import com.mashibing.internalcommon.dto.ResponseResult;
@@ -24,6 +25,11 @@ public class UserService {
 
     public ResponseResult changeWorkStatus(DriverUserWorkStatus driverUserWorkStatus){
         return serviceDriverUserClient.changeWorkStatus(driverUserWorkStatus);
+    }
+
+    public ResponseResult<DriverCarBindingRelationship> getDriveCarBindingRelationship(String driverPhone){
+        //  根据driverPhone查询司机信息
+        return serviceDriverUserClient.getDriveCarBindingRelationshipByDriverPhone(driverPhone);
     }
 
 }

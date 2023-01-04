@@ -5,6 +5,7 @@ import com.mashibing.internalcommon.dto.DriverUser;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.response.DriverUserExistsResponse;
 import com.mashibing.internalcommon.response.OrderDriverResponse;
+import com.mashibing.servicedriveruser.service.DriverCarBindingRelationshipService;
 import com.mashibing.servicedriveruser.service.DriverUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class UserController {
 
     @Autowired
     private DriverUserService driverUserService;
+
+    @Autowired
+    private DriverCarBindingRelationshipService driverCarBindingRelationshipService;
 
     /**
      * 添加司机信息
@@ -58,5 +62,10 @@ public class UserController {
     @GetMapping("/get-available-driver/{carId}")
     public ResponseResult<OrderDriverResponse> getAvailableDriver(@PathVariable("carId") Long carId){
         return driverUserService.getAvailableDriver(carId);
+    }
+
+    @GetMapping("/driver-car-binding-relationship")
+    public ResponseResult getDriveCarBindingRelationshipByDriverPhone(@RequestParam String driverPhone){
+        return driverCarBindingRelationshipService.getDriveCarBindingRelationshipByDriverPhone(driverPhone);
     }
 }
