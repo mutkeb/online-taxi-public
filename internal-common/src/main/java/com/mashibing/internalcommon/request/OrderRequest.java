@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 
 @Data
 public class OrderRequest {
+    //  车辆类型
+    private String vehicleType;
+    //  订单id
     private Long orderId;
     //  乘客Id
     private Long passengerId;
@@ -16,7 +19,7 @@ public class OrderRequest {
     private String address;
     //  出发时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dapartTime;
+    private LocalDateTime departTime;
     //  下单时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime orderTime;
