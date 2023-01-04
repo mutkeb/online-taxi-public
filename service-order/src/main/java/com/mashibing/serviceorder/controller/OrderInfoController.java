@@ -4,6 +4,7 @@ package com.mashibing.serviceorder.controller;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.request.OrderRequest;
 import com.mashibing.serviceorder.service.OrderInfoService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,11 @@ public class OrderInfoController {
     @PostMapping("/passenger-getoff")
     public ResponseResult passengerGetOff(@RequestBody OrderRequest orderRequest){
         return orderService.passengerGetOff(orderRequest);
+    }
+
+    @PostMapping("/push-pay-info")
+    public ResponseResult pushPayInfo(@RequestBody OrderRequest orderRequest){
+        return orderService.pushPayInfo(orderRequest);
     }
 
     @PostMapping("/pay")

@@ -21,6 +21,11 @@ public interface ServiceOrderClient {
     @RequestMapping(method = RequestMethod.POST,value = "/order/passenger-getoff")
     public ResponseResult passengerGetOff(@RequestBody OrderRequest orderRequest);
 
+    @RequestMapping(method = RequestMethod.POST,value = "/order/push-pay-info")
+    public ResponseResult pushPayInfo(@RequestBody OrderRequest orderRequest);
+
     @RequestMapping(method = RequestMethod.POST,value = "/order/cancel")
     public ResponseResult cancel(@RequestParam Long orderId, @RequestParam String identity);
+
+
 }

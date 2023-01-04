@@ -29,6 +29,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -549,5 +550,15 @@ public class OrderInfoService {
 
         return ResponseResult.success();
 
+    }
+
+    public ResponseResult pushPayInfo(OrderRequest orderRequest){
+        Long orderId = orderRequest.getOrderId();
+        OrderInfo orderInfo = orderInfoMapper.selectById(orderId);
+
+        orderInfo.setOrderStatus(OrderConstant.TO_START_PAY);
+        orderInfoMapper.updateById(orderInfo);
+
+        return ResponseResult.success();
     }
 }

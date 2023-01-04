@@ -16,7 +16,7 @@ public class PayController {
     private PayService payService;
 
     @PostMapping("/push-pay-info")
-    public ResponseResult pushPayInfo(@RequestParam String orderId,@RequestParam String price,@RequestParam Long passengerId){
+    public ResponseResult pushPayInfo(@RequestParam Long orderId,@RequestParam String price,@RequestParam Long passengerId){
         return payService.pushPayInfo(orderId,price,passengerId);
     }
 }
