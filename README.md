@@ -12,7 +12,16 @@
 
 使用到的技术：SpringCloud常用中间件（Nacos、OpenFeign）、RocketMQ中间件、分布式事务（Seata组件）、Mysql  及Reids
 
-功能展示：
+部分功能展示：
 
 乘客叫车：
 ![image](https://user-images.githubusercontent.com/103638902/226091368-1b760977-7a76-4ebe-b815-ee681dc524e0.png)
+
+司机接单：
+![image](https://user-images.githubusercontent.com/103638902/226091434-64ec4195-b118-4068-bd00-5b11ec702098.png)
+
+司机发起收款:
+![image](https://user-images.githubusercontent.com/103638902/226091459-dae97e15-0167-4001-ba4c-40092da04b54.png)
+
+乘客支付：
+![image](https://user-images.githubusercontent.com/103638902/226091486-f4431937-c583-4466-a474-f13706c7c5aa.png)
