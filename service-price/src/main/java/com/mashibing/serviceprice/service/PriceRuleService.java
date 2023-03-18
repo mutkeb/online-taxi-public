@@ -32,6 +32,7 @@ public class PriceRuleService {
         //  拼接fare_type
         String cityCode = priceRule.getCityCode();
         String vehicleType = priceRule.getVehicleType();
+        //  通过城市code以及车辆类型来拼接版本类型
         String fareType = cityCode + "$" + vehicleType;
 
         priceRule.setFareType(fareType);

@@ -58,7 +58,6 @@ public class JwtUtils {
     }
 
     //  解析token
-
     public static TokenResult parseToken(String token){
 
         DecodedJWT verify = JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
