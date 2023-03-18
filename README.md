@@ -11,3 +11,8 @@
 主要包括以下模块：用户模块、地图模块、消息模块、支付模块、计价模块、账号系统等
 
 使用到的技术：SpringCloud常用中间件（Nacos、OpenFeign）、RocketMQ中间件、分布式事务（Seata组件）、Mysql  及Reids
+
+功能展示：
+
+乘客叫车：
+![image](https://user-images.githubusercontent.com/103638902/226091368-1b760977-7a76-4ebe-b815-ee681dc524e0.png)
